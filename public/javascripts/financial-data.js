@@ -1,11 +1,14 @@
-const apiUrl = `http://api.coindesk.com/v1/bpi/historical/close.json`;
-
+const apiUrl = 'http://api.coindesk.com/v1/bpi/historical/close.json';
 const startDate = document.getElementById("startDate");
 const endDate = document.getElementById("endDate");
 let startInputValue;
 let endInputValue;
 const chooseCurrency = document.getElementById("currency");
 let selectedCurrency;
+let minValue = document.getElementById("minVal");
+let maxValue = document.getElementById("maxVal");
+let minimum;
+let maximum;
 
 startDate.onchange = (event) => {
     startInputValue = event.target.value;
@@ -18,22 +21,7 @@ endDate.onchange = (event) => {
 };
 
 chooseCurrency.onchange = (event) => {
-    // selectedCurrency = event.target.value;
-    // console.log(selectedCurrency);
-    switch (event.target.value) {
-        case "USD":
-            selectedCurrency = "840";
-            break;
-        case "EU":
-            selectedCurrency = "978";
-            break;
-        case "AUD":
-            selectedCurrency = "036";
-            break;
-        default:
-            selectedCurrency = "840";
-    }
-    console.log(selectedCurrency);
+    selectedCurrency = event.target.value;
     updateCurrency();
 }
 
@@ -51,14 +39,21 @@ function updateChart() {
        const data = Object.values(res.data.bpi);
        printTheChart(labels, data);
     })
+    .catch(err => {
+        console.log("Error while getting the data: ", err);
+      });
 };
 
 function updateCurrency() {
-    axios.get(apiUrl + `?currency=${selectedCurrency}`)
+    axios.get(apiUrl + '?currency=' + selectedCurrency)
     .then((res) => {
-        console.log(res);
-        // chart.update();
+        const labels = Object.keys(res.data.bpi);
+        const data = Object.values(res.data.bpi);
+        printTheChart(labels, data);
     })
+    .catch(err => {
+        console.log("Error while getting the data: ", err);
+      });
 }
 
 axios
@@ -87,5 +82,16 @@ function printTheChart(labels, data) {
             }]
         },
     });
+
+    updateMinMaxVals(data);
 }
 
+
+function updateMinMaxVals (data) {
+
+minimum = Math.min(...data);
+maximum = Math.max(...data);
+minValue.innerHTML = minimum;
+maxValue.innerHTML = maximum;
+
+}

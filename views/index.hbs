@@ -9,21 +9,36 @@
 </head>
 
 <body>
-  <h1> {{title}} </h1>
-  <p>Welcome to {{title}} </p>
-
-  <label for="startDate">From:</label>
-  <input type="date" id="startDate">
-  <label for="endDate">To:</label>
-  <input type="date" id="endDate">
+  <h1> Bitcoin Prices </h1>
+  <div>
+    <label for="startDate">From:</label>
+    <input type="date" id="startDate">
+    <label for="endDate">To:</label>
+    <input type="date" id="endDate">
+  </div>
 
   <label for="currency">Select currency:</label>
+
   <select name="currency" id="currency">
     <option value="USD">USD</option>
-    <option value="EU">Euro</option>
+    <option value="EUR">Euro</option>
+    <option value="AUD">AUD</option>
   </select>
 
   <canvas id="myChart" width="1800" height="1800"></canvas>
+
+  <table>
+    <tr>
+      <th>Minimum value: </th>
+      <td id="minVal"></td>
+
+    </tr>
+    <tr>
+      <th>Maximum value: </th>
+      <td id="maxVal"></td>
+    </tr>
+  </table>
+
 </body>
 <script src="/javascripts/financial-data.js" charset="utf-8"></script>
 
